@@ -1,26 +1,35 @@
 import React from 'react'
-import { View, Text, StyleSheet, Button, FlatList } from 'react-native'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { DATA } from '../data'
-import { Post } from '../components/Post'
+import { AppHeaderIcon } from '../components/AppHeaderIcon'
+import { PostList } from '../components/PostList'
+
 
 export const MainScreen = ({ navigation }) => {
 
-    const goToPost = () => {
-        navigation.navigate('Post')
+    const openPosthandler = (post) => {
+        navigation.navigate('Post', {
+            postId: post.id,
+            date: post.date,
+            booked: post.booked
+        })
     }
-    return <View style={styles.wrapper}>
-        <FlatList data={DATA}
-            keyExtractor={post => post.id.toString()}
-            renderItem={({ item }) => <Post post={item}/>} />
-
-    </View>
+    return (
+        <PostList data={DATA} onOpen={openPosthandler} />
+    )
 }
 
-MainScreen.navigationOptions = {
-    headerTitle: 'My blog'
-}
-const styles = StyleSheet.create({
-    wrapper: {
-        padding: 10
-    }
+MainScreen.navigationOptions = ({ navigation }) => ({
+    headerTitle: 'My blog',
+    headerRight: (<HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+        <Item title="Take photo" iconName="ios-camera" onPress={() => navigation.push('Create')} />
+    </HeaderButtons>
+    ),
+    headerLeft: <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+        <Item
+            title="toggle Drawer"
+            iconName="ios-menu"
+            onPress={() => navigation.toggleDrawer()} />
+    </HeaderButtons>
 })
+

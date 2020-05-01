@@ -1,15 +1,19 @@
 import React from 'react'
-import { View, StyleSheet, ImageBackground, Text } from 'react-native'
+import { View, StyleSheet, ImageBackground, Text, TouchableOpacity } from 'react-native'
 
-export const Post = ({ post }) => {
-    return <View style={styles.post}>
-        <ImageBackground style={styles.image} source={{ uri: post.img }}>
-            <View style={styles.textWrapp}>
-                <Text style={styles.title}>{new Date(post.date).toLocaleDateString()}</Text>
+export const Post = ({ post, onOpen }) => {
+    return (
+        <TouchableOpacity activeOpacity={0.7} onPress={() =>onOpen(post)}>
+            <View style={styles.post}>
+                <ImageBackground style={styles.image} source={{ uri: post.img }}>
+                    <View style={styles.textWrapp}>
+                        <Text style={styles.title}>{new Date(post.date).toLocaleDateString()}</Text>
+                    </View>
+
+                </ImageBackground>
             </View>
-
-        </ImageBackground>
-    </View>
+        </TouchableOpacity>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -21,13 +25,13 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 200
     },
-    textWrapp:{
+    textWrapp: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         paddingVertical: 5,
         alignItems: 'center',
         width: '100%'
     },
-    title:{
+    title: {
         color: '#fff',
         fontFamily: 'open-regular'
     }
